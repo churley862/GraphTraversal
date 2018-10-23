@@ -1,9 +1,11 @@
+/*
+ * Collin Hurley
+ * 10/22/2018
+ * CS 203
+ * */
 package com.company;
-import javafx.util.Pair;
 
-import javax.sound.midi.SysexMessage;
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class Graph implements Iterable<Edge> {
     private int nodes;
@@ -16,8 +18,6 @@ public class Graph implements Iterable<Edge> {
     }
 
     public Graph(String graph) {
-        Pattern edgePattern = Pattern.compile(" *");
-//        Pattern edgePattern = Pattern.compile(" *\( *(\d+) *, *(\d+) *\) *");
         Scanner sc = new Scanner(graph);
 
         if (sc.hasNextInt()) {
@@ -25,7 +25,6 @@ public class Graph implements Iterable<Edge> {
             matrix = new boolean[summation(nodes)];
         }
 
-        int a, b;
         while (sc.hasNext()) {
             String edge = sc.next();
             String[] nodes = edge.split("[ (),]+");
@@ -39,29 +38,28 @@ public class Graph implements Iterable<Edge> {
         return nodes;
     }
 
-    public boolean hasEdge(int a, int b) {
-        if (a == b || a > nodes || b > nodes || a <= 0 || b <= 0) {
+    public boolean hasEdge(int node1, int node2) {
+        if (node1 == node2 || node1 > nodes || node2 > nodes || node1 <= 0 || node2 <= 0) {
             return false;
         }
-        return matrix[offset(a, b)];
+        return matrix[offset(node1, node2)];
     }
 
-    public void addEdge(int a, int b) {
-        if (a == b) return;
+    public void addEdge(int node1, int node2) {
+        if (node1 == node2) return;
 
-        final int offset = offset(a,b);
-//        System.out.println("addEdge(" + a + "," + b + "): " + offset);
+        final int offset = offset(node1,node2);
         count += matrix[offset] ? 0 : 1;
         matrix[offset] = true;
     }
 
-    protected int offset(int a, int b) {
-        if (a > b) {
-            int tmp = b;
-            b = a;
-            a = tmp;
+    protected int offset(int node1, int node2) {
+        if (node1 > node2) {
+            int tmp = node2;
+            node2 = node1;
+            node1 = tmp;
         }
-        return rowOffset(a - 1) + (b - a - 1);
+        return rowOffset(node1 - 1) + (node2 - node1 - 1);
     }
 
     protected static int summation(int n) {
@@ -81,8 +79,8 @@ public class Graph implements Iterable<Edge> {
             }
             result += "\n";
         }
-//        for (boolean b : matrix) {
-//            result += b ? "1 " : "0 ";
+//        for (boolean node2 : matrix) {
+//            result += node2 ? "1 " : "0 ";
 //        }
         return result;
     }

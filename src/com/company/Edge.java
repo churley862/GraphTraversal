@@ -1,27 +1,32 @@
+/*
+ * Collin Hurley
+ * 10/22/2018
+ * CS 203
+ * */
 package com.company;
 
 public class Edge {
-    final int a;
-    final int b;
+    final int node1;
+    final int node2;
 
-    public Edge(int a, int b) {
-        if (a > b) {
-            int tmp = b;
-            b = a;
-            a = tmp;
+    public Edge(int node1, int node2) {
+        if (node1 > node2) {
+            int tmp = node2;
+            node2 = node1;
+            node1 = tmp;
         }
-        this.a = a;
-        this.b = b;
+        this.node1 = node1;
+        this.node2 = node2;
     }
 
     public int otherNode(int n) {
-        if (a == n) return b;
-        return a;
+        if (node1 == n) return node2;
+        return node1;
     }
 
     @Override
     public int hashCode() {
-        return a * 1000 + b;
+        return node1 * 1000 + node2;
     }
 
     @Override
@@ -30,11 +35,11 @@ public class Edge {
             return false;
         }
         Edge other = (Edge) obj;
-        return (a == other.a) && (b == other.b);
+        return (node1 == other.node1) && (node2 == other.node2);
     }
 
     @Override
     public String toString() {
-        return String.valueOf(a) + "," + b;
+        return String.valueOf(node1) + "," + node2;
     }
 }
