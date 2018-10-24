@@ -1,6 +1,6 @@
 /*
  * Collin Hurley
- * 10/22/2018
+ * 10/23/2018
  * CS 203
  * */
 package com.company;
@@ -8,6 +8,7 @@ package com.company;
 import java.util.*;
 
 public class Graph implements Iterable<Edge> {
+    // nodes stores the number of nodes
     private int nodes;
     private int count;
     private boolean[] matrix;
@@ -16,7 +17,12 @@ public class Graph implements Iterable<Edge> {
         this.nodes = nodes;
         matrix = new boolean[summation(nodes)];
     }
-
+    /**************************************************************/
+    /* Method: Graph */
+    /* Purpose: graph constructor creating an instance of graph
+    /* Parameters: the string to be made into a graph */
+    /* Returns: the boolean if they are equal */
+    /**************************************************************/
     public Graph(String graph) {
         Scanner sc = new Scanner(graph);
 
@@ -33,18 +39,34 @@ public class Graph implements Iterable<Edge> {
             }
         }
     }
-
+    /**************************************************************/
+    /* Method: getNodes*/
+    /* Purpose: node getter method
+    /* Parameters: none */
+    /* Returns: the int node from get */
+    /**************************************************************/
     public int getNodes() {
         return nodes;
     }
-
+    /**************************************************************/
+    /* Method: hasEdge */
+    /* Purpose: Determines if the edge exists
+    /* comparison for edge class
+    /* Parameters: node1 and node2 */
+    /* Returns: the boolean if the edge exists at the two nodes */
+    /**************************************************************/
     public boolean hasEdge(int node1, int node2) {
         if (node1 == node2 || node1 > nodes || node2 > nodes || node1 <= 0 || node2 <= 0) {
             return false;
         }
         return matrix[offset(node1, node2)];
     }
-
+    /**************************************************************/
+    /* Method: addEdge */
+    /* Purpose: Adds an edge to the matrix
+    /* Parameters: node1 and node2 */
+    /* Returns: void */
+    /**************************************************************/
     public void addEdge(int node1, int node2) {
         if (node1 == node2) return;
 
@@ -52,7 +74,13 @@ public class Graph implements Iterable<Edge> {
         count += matrix[offset] ? 0 : 1;
         matrix[offset] = true;
     }
-
+    /**************************************************************/
+    /* Method: offset */
+    /* Purpose: returns the offset of the the point in the matrix
+    /* returns the integer offset of the point in the matrix
+    /* Parameters: node1 and node2 */
+    /* Returns: the integer offset of the point in the matrix*/
+    /**************************************************************/
     protected int offset(int node1, int node2) {
         if (node1 > node2) {
             int tmp = node2;
@@ -62,14 +90,30 @@ public class Graph implements Iterable<Edge> {
         return rowOffset(node1 - 1) + (node2 - node1 - 1);
     }
 
+    /**************************************************************/
+    /* Method: summation */
+    /* Purpose: summation to help calculate row offset
+    /* Parameters: int node */
+    /* Returns: int total summation */
+    /**************************************************************/
     protected static int summation(int n) {
         return n * (n + 1) / 2;
     }
-
+    /**************************************************************/
+    /* Method: rowOffset */
+    /* Purpose: calculates the number of rows to offset
+    /* Parameters: node
+    /* Returns: nodes to offset */
+    /**************************************************************/
     protected int rowOffset(int n) {
         return n * nodes - summation(n);
     }
-
+    /**************************************************************/
+    /* Method: toString */
+    /* Purpose: Converts the graph to a string matrix
+    /* Parameters: none */
+    /* Returns: the String matrix */
+    /**************************************************************/
     @Override
     public String toString() {
         String result = "";
@@ -79,12 +123,16 @@ public class Graph implements Iterable<Edge> {
             }
             result += "\n";
         }
-//        for (boolean node2 : matrix) {
-//            result += node2 ? "1 " : "0 ";
-//        }
+
         return result;
     }
-
+    /**************************************************************/
+    /* Method: iterator
+    /* Purpose:Overrides the edge iterator to incorporate offsets */
+    /* comparison for edge class
+    /* Parameters: none */
+    /* Returns: An edge iterator  */
+    /**************************************************************/
     @Override
     public Iterator<Edge> iterator() {
         return new Iterator<Edge>() {
@@ -92,12 +140,24 @@ public class Graph implements Iterable<Edge> {
             int pos = -1;
             int row = 1;
             int col = 1;
-
+            /**************************************************************/
+            /* Method: hasNext
+            /* Purpose:Overrides the hasNext function in java to see if
+            /* found is less than count */
+            /* comparison for edge class
+            /* Parameters: none */
+            /* Returns: An edge iterator  */
+            /**************************************************************/
             @Override
             public boolean hasNext() {
                 return found < count;
             }
-
+            /**************************************************************/
+            /* Method: next
+            /* Purpose:overrides the next method to return the next edge */
+            /* Parameters: none */
+            /* Returns: the next edge instance */
+            /**************************************************************/
             @Override
             public Edge next() {
                 // note 0, 0 is always false, so it is safe
@@ -119,7 +179,12 @@ public class Graph implements Iterable<Edge> {
             }
         };
     }
-
+    /**************************************************************/
+    /* Method: edgesAt
+    /* Purpose:returns the edges at a node */
+    /* Parameters: none */
+    /* Returns: returns an iterable of the edges at a node */
+    /**************************************************************/
     public Iterable<Edge> edgesAt(int n) {
         Set<Edge> edges = new LinkedHashSet<>();
 

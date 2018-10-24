@@ -1,6 +1,6 @@
 /*
 * Collin Hurley
-* 10/22/2018
+* 10/23/2018
 * CS 203
 * */
 package com.company;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Main {
     /**************************************************************/
-    /* Method: main */
+    /* Method: Main */
     /* Purpose: To traverse an inputted graph and determine what */
     /* components are connected. Then takes the connected */
     /* components and determines if they are part of node1 cycle
